@@ -187,15 +187,20 @@ class Farming:
                     url='https://clicker-api.joincommunity.xyz/clicker/profile',
                     verify_ssl=False)
 
-                if not (await r.json(content_type=None)).get('ok'):
-                    logger.error(f'{self.session_name} | Неизвестный ответ при получении данных профиля, '
-                                 f'ответ: {await r.text()}')
+                status_code = r.status
+                try:
+                    await r.json(content_type=None)
+                except:
+                    logger.error(f'{self.session_name} | Неизвестный ответ при получении данных профиля | '
+                                 f'Статус: {status_code} | Ответ: {await r.text()}')
+                    await asyncio.sleep(delay=2)
                     continue
 
                 return await r.json(content_type=None)
 
             except Exception as error:
                 logger.error(f'{self.session_name} | Неизвестная ошибка при получении данных профиля: {error}')
+                await asyncio.sleep(delay=2)
 
     async def send_clicks(self,
                           client: aiohttp.ClientSession,
