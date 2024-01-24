@@ -153,12 +153,12 @@ class Farming:
                                           lang_code=platform_data.get('lang_code', 'en'),
                                           system_lang_code=platform_data.get('system_lang_code', 'en'),
                                           proxy=proxy_dict) as client:
-                        try:
-                            await client.send_message(entity='notcoin_bot',
-                                                      message='/start')
-                        except Exception:
-                            ...
-                            
+                    try:
+                        await client.send_message(entity='notcoin_bot',
+                                                  message='/start')
+                    except Exception:
+                        ...
+
                     # noinspection PyTypeChecker
                     result = await client(functions.messages.RequestWebViewRequest(
                         peer='notcoin_bot',
