@@ -495,14 +495,10 @@ class Farming:
                                     logger.warning(f"{self.session_name} | Недействительные данные: {status_code}")
                                     await asyncio.sleep(delay=2)
 
-                                    logger.debug(f"{self.session_name} | Генерация нового Auth токена")
-
                                     access_token: str = await self.get_access_token(client=client,
                                                                                     tg_web_data=tg_web_data)
                                     client.headers['Authorization']: str = f'Bearer {access_token}'
                                     opt_client.headers['Authorization']: str = f'Bearer {access_token}'
-
-                                    logger.success(f"{self.session_name} | Генерация завершена")
 
                                     access_token_created_time: float = time()
                                     continue
@@ -511,6 +507,13 @@ class Farming:
                                     logger.warning(f"{self.session_name} | Доступ к API запрещен: {status_code}")
                                     logger.info(f"{self.session_name} | Сплю {config.SLEEP_AFTER_FORBIDDEN_STATUS} сек")
                                     await asyncio.sleep(delay=config.SLEEP_AFTER_FORBIDDEN_STATUS)
+
+                                    access_token: str = await self.get_access_token(client=client,
+                                                tg_web_data=tg_web_data)
+                                    client.headers['Authorization']: str = f'Bearer {access_token}'
+                                    opt_client.headers['Authorization']: str = f'Bearer {access_token}'
+
+                                    access_token_created_time: float = time()
                                     continue
 
                                 if not str(status_code).startswith('2'):
